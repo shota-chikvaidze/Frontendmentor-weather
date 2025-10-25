@@ -1,3 +1,25 @@
+# Weather App 🌤️
+
+A responsive weather application built as a Frontend Mentor challenge.
+
+## Technologies Used
+- React
+- OpenWeatherMap API
+
+## Features
+- Fetches real-time weather data for any city or the user's current location.
+- Dynamic UI updates based on user input.
+- Mobile-first, fully responsive design.
+- Smooth transitions and clean interface for better user experience.
+
+## Live Demo
+[View Live Demo]([https://your-demo-link.com](https://frontendmentor-weather.vercel.app/))
+
+## Notes
+This project was built to practice API integration, DOM manipulation, and responsive web design. Code is public and available for review.
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
