@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import './Home.css'
 import WebsiteLogo from '../assets/images/logo.svg'
@@ -61,7 +61,7 @@ export const Home = () => {
         99: stormIcon
     }
 
-    const fetchData = async (city = search) => {
+    const fetchData = useCallback(async (city = search) => {
         try{
 
             setSearchLoading(true)
@@ -139,7 +139,7 @@ export const Home = () => {
             setLoading(false)
             setSearchLoading(false)
         }
-    }
+    }, [search])
 
     useEffect(() => {
         if (weather.hourly) {
@@ -150,7 +150,7 @@ export const Home = () => {
 
     useEffect(() => {
         fetchData('Tbilisi')
-    }, [])
+    }, [fetchData])
 
   return (
     <>
@@ -159,9 +159,9 @@ export const Home = () => {
         <div className='header_wrapper'>
             <img src={WebsiteLogo} className='web_logo' alt='Website logo' />
             <div className='units'>
-                <img src={Settings} />
+                <img src={Settings} alt="Settings icon" />
                 <p>Units</p>
-                <img src={Dropdown} />
+                <img src={Dropdown} alt="Dropdown icon" />
             </div>
         </div>
     </section>
@@ -281,7 +281,7 @@ export const Home = () => {
                                     ) : (
                                     <div key={index} className='daily_item'>
                                         <p className='date_para'> {formattedDate} </p>
-                                        <img src={weather.dailyIcons[index]} />
+                                        <img src={weather.dailyIcons[index]} alt="Weather icon" />
 
                                         <div className='daily_temps'>
                                             <p> {Math.floor(weather.daily.temperature_2m_max[index])}° </p>
