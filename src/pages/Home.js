@@ -61,13 +61,11 @@ export const Home = () => {
         99: stormIcon
     }
 
-    
-
-    const fetchData = async () => {
+    const fetchData = async (city = search) => {
         try{
 
             setSearchLoading(true)
-            const res = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${search}&count=10&language=en&format=json`)
+            const res = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=10&language=en&format=json`)
 
             if (!res.data.results || res.data.results.length === 0) {
                 setError('No search results found!')
@@ -150,7 +148,9 @@ export const Home = () => {
         
     }, [weather])
 
-
+    useEffect(() => {
+        fetchData('Tbilisi')
+    }, [])
 
   return (
     <>
