@@ -64,11 +64,11 @@ export const Home = () => {
 
 
 
-    const fetchData = useCallback(async (city = search) => {
+    const fetchData = useCallback(async () => {
         try{
 
             setSearchLoading(true)
-            const res = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=10&language=en&format=json`)
+            const res = await axios.get(`https://geocoding-api.open-meteo.com/v1/search?name=${search}&count=10&language=en&format=json`)
 
             if (!res.data.results || res.data.results.length === 0) {
                 setError('No search results found!')
@@ -77,6 +77,7 @@ export const Home = () => {
             }
             setSearchLoading(false)
             setLoading(true)
+
 
 
             const { latitude, longitude, timezone, name, country } = res.data.results[0]
@@ -141,7 +142,7 @@ export const Home = () => {
             setLoading(false)
             setSearchLoading(false)
         }
-    }, [])
+    }, [search])
 
     useEffect(() => {
         if (weather.hourly) {
