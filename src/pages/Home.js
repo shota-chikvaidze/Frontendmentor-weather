@@ -20,6 +20,38 @@ import snowIcon from '../assets/images/icon-snow.webp'
 import stormIcon from '../assets/images/icon-storm.webp'
 
 
+const weatherIcons = {
+    0: sunnyIcon,
+    1: sunnyIcon,
+    2: partlyCloudyIcon,
+    3: overcastIcon,                
+    45: fogIcon,
+    48: fogIcon,
+    51: drizzleIcon,
+    53: drizzleIcon,
+    55: drizzleIcon,
+    56: drizzleIcon,
+    57: drizzleIcon,
+    61: rainIcon,
+    63: rainIcon,
+    65: rainIcon,
+    66: rainIcon,
+    67: rainIcon,
+    71: snowIcon,
+    73: snowIcon,
+    75: snowIcon,
+    77: snowIcon,
+    80: rainIcon,
+    81: rainIcon,
+    82: rainIcon,
+    85: snowIcon,
+    86: snowIcon,
+    95: stormIcon,
+    96: stormIcon,
+    99: stormIcon
+}
+
+
 export const Home = () => {
 
     const [weather, setWeather] = useState({})
@@ -30,36 +62,7 @@ export const Home = () => {
     const [searchLoading, setSearchLoading] = useState(false)
     const [selectedDay, setSelectedDay] = useState(null)
 
-    const weatherIcons = {
-        0: sunnyIcon,
-        1: sunnyIcon,
-        2: partlyCloudyIcon,
-        3: overcastIcon,                
-        45: fogIcon,
-        48: fogIcon,
-        51: drizzleIcon,
-        53: drizzleIcon,
-        55: drizzleIcon,
-        56: drizzleIcon,
-        57: drizzleIcon,
-        61: rainIcon,
-        63: rainIcon,
-        65: rainIcon,
-        66: rainIcon,
-        67: rainIcon,
-        71: snowIcon,
-        73: snowIcon,
-        75: snowIcon,
-        77: snowIcon,
-        80: rainIcon,
-        81: rainIcon,
-        82: rainIcon,
-        85: snowIcon,
-        86: snowIcon,
-        95: stormIcon,
-        96: stormIcon,
-        99: stormIcon
-    }
+
 
     const fetchData = useCallback(async (city = search) => {
         try{
@@ -74,7 +77,6 @@ export const Home = () => {
             }
             setSearchLoading(false)
             setLoading(true)
-
 
 
             const { latitude, longitude, timezone, name, country } = res.data.results[0]
@@ -135,11 +137,11 @@ export const Home = () => {
             
 
         }catch(err){
-            setApiError('hello')
+            setApiError('error')
             setLoading(false)
             setSearchLoading(false)
         }
-    }, [search])
+    }, [])
 
     useEffect(() => {
         if (weather.hourly) {
@@ -148,9 +150,6 @@ export const Home = () => {
         
     }, [weather])
 
-    useEffect(() => {
-        fetchData('Tbilisi')
-    }, [fetchData])
 
   return (
     <>
@@ -189,15 +188,13 @@ export const Home = () => {
                         <input 
                             type='search' 
                             onKeyDown={(e) => {
-                                if(e.key === 'Enter') return fetchData() }} 
+                                if(e.key === 'Enter' && search.length !== 0) return fetchData() }} 
                             placeholder='Search for a place...' 
                             value={search} 
                             onChange={(e) => setSearch(e.target.value)} 
                         />
                         {searchLoading && (
-                            error ? (
-                                <></>
-                            ) : (
+                            !error && (
                                 <div className='search_loading'>
                                     <img src={loadingIcon} alt='Loading icon' />
                                     <p> Search in progress </p>
@@ -205,7 +202,12 @@ export const Home = () => {
                             )
                         )}
                     </div>
-                    <button onClick={fetchData}>
+                    <button onClick={() => {
+                        if(search.length === 0) {
+                            return 
+                        }
+                        fetchData()
+                    }}>
                         Search
                     </button>
                 </div>
